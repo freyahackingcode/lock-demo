@@ -1,0 +1,33 @@
+# GitLab CI/CD: 自动构建并部署到 GitLab Pages
+# 触发：push 到默认分支（main）
+# 产物：dist/ 内容拷贝到 public/，由 GitLab Pages 托管
+# 访问地址：project settings > Pages 里查看，通常为
+#   https://<username>.pages.git.n.xiaomi.com/<project-name>/
+# 或使用项目 URL 形式，具体以你们内网 Pages 域名为准
+
+image: node:20-alpine
+
+stages:
+  - build
+
+pages:
+  stage: build
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+  script:
+    # 注意：本项目源码里的 public/ 是 Vite 源静态资源目录（会被复制到 dist/）
+    # GitLab Pages 要求部署产物在 public/，因此 build 完成后：
+    #   1) build 完 dist/ 已经包含 public/ 里的所有静态资源
+    #   2) 把源 public/ 备份，用 dist/ 替换 public/ 作为 Pages 产物
+    - npm ci --prefer-offline --no-audit
+    - npm run build
+    - rm -rf public_backup && mv public public_backup
+    - mv dist public
+  artifacts:
+    paths:
+      - public
+    expire_in: 7 days
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

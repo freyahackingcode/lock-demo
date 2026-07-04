@@ -1,0 +1,87 @@
+.live-mask {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  z-index: 60;
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex; align-items: center; justify-content: center;
+  animation: fadeIn .2s ease;
+}
+
+.live-frame {
+  position: relative;
+  width: 360px;
+  background: #111;
+  border-radius: 24px;
+  overflow: hidden;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.live-close {
+  position: absolute;
+  right: 14px; top: 14px;
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  border: 0;
+  color: #fff;
+  display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.live-tag {
+  position: absolute;
+  top: 16px; left: 16px;
+  background: rgba(255,0,55,0.85);
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 100px;
+  font-size: 12px;
+  display: inline-flex; align-items: center; gap: 6px;
+  z-index: 2;
+}
+.live-tag .dot { width: 6px; height: 6px; background: #fff; border-radius: 50%; animation: blink 1s infinite; }
+@keyframes blink { 50% { opacity: 0.3 } }
+
+.live-stage {
+  height: 540px;
+  background:
+    radial-gradient(60% 50% at 50% 30%, #2a3037 0%, #0d1116 70%, #000 100%);
+  position: relative;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+}
+.live-noise {
+  position: absolute; inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.02) 0 2px, transparent 2px 4px);
+  animation: scan 2s linear infinite;
+}
+@keyframes scan { from { background-position: 0 0 } to { background-position: 0 60px } }
+.live-text { font-size: 18px; color: rgba(255,255,255,0.85); z-index: 1; }
+.live-time { font-size: 13px; color: rgba(255,255,255,0.5); z-index: 1; }
+
+.live-actions {
+  display: flex;
+  padding: 18px 20px 24px;
+  gap: 12px;
+  background: #1a1d22;
+}
+.la-btn {
+  flex: 1;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.la-btn.primary { background: #0cce94; color: #fff; }
+.la-btn:active { opacity: .7; }
