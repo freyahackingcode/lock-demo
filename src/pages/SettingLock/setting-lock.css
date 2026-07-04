@@ -496,66 +496,37 @@
   width: calc(100% - 24px);
 }
 
-/* ---------- Config 抽屉面板 ---------- */
-.sl-cfg-btn {
-  position: absolute;
-  top: 44px;
-  right: 12px;
-  z-index: 6;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: rgba(0, 0, 0, 0.05);
-  border: 0;
-  cursor: pointer;
+/* ---------- 两栏布局：手机页面 + 常驻 Config 侧栏 ---------- */
+.sl-layout {
   display: flex;
-  align-items: center;
+  gap: 16px;
+  align-items: flex-start;
   justify-content: center;
-  font-size: 16px;
+  flex-wrap: wrap;
 }
-.sl-cfg-btn:hover {
-  background: rgba(0, 0, 0, 0.1);
+.sl-layout-stage {
+  flex-shrink: 0;
 }
-.sl-cfg-mask {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 500;
-  display: flex;
-  justify-content: flex-end;
-}
-.sl-cfg-panel {
-  width: 88%;
-  height: 100%;
+.sl-cfg-sidebar {
+  width: 360px;
+  max-height: 872px;
   background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
   display: flex;
   flex-direction: column;
-  animation: sl-cfg-in 0.22s ease-out;
-}
-@keyframes sl-cfg-in {
-  from { transform: translateX(20px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  overflow: hidden;
 }
 .sl-cfg-header {
-  padding: 12px 16px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 .sl-cfg-title {
   font-size: 15px;
   font-weight: 500;
-}
-.sl-cfg-close {
-  width: 28px;
-  height: 28px;
-  border: 0;
-  background: transparent;
-  font-size: 24px;
-  cursor: pointer;
-  color: rgba(0, 0, 0, 0.5);
-  line-height: 1;
 }
 .sl-cfg-scroll {
   flex: 1;

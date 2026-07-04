@@ -5,7 +5,6 @@
 import { useEffect, useState } from 'react'
 import { StatusBar, NavBar, Section, NavigationRow, NavigationOnOffRow, SwitchRow, Toast, Dialog } from './components.jsx'
 import { getState, setState, subscribe, hasSpec, isUwbDisabledByMode } from './store.js'
-import ConfigPanel from './ConfigPanel.jsx'
 import SpecBadge from './SpecBadge.jsx'
 import './setting-lock.css'
 
@@ -18,7 +17,6 @@ function useStore() {
 export default function SettingLock({ onBack, navigate }) {
   const s = useStore()
   const [toast, setToast] = useState('')
-  const [cfgOpen, setCfgOpen] = useState(false)
   const [doorbellCloseDlg, setDoorbellCloseDlg] = useState(false)
   const [resetDlg, setResetDlg] = useState(null)
 
@@ -112,7 +110,6 @@ export default function SettingLock({ onBack, navigate }) {
     <div className="sl-page gradient">
       <StatusBar />
       <NavBar title="门锁设置" onBack={onBack} />
-      <button className="sl-cfg-btn" onClick={() => setCfgOpen(true)} title="打开配置面板">⚙︎</button>
 
       <div className="sl-scroll">
         {/* 开锁方式 */}
@@ -239,7 +236,6 @@ export default function SettingLock({ onBack, navigate }) {
       )}
 
       <Toast msg={toast} />
-      <ConfigPanel open={cfgOpen} onClose={() => setCfgOpen(false)} />
     </div>
   )
 }

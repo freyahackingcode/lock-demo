@@ -8,6 +8,7 @@ import AntiLockPage from './pages/SettingLock/AntiLockPage.jsx'
 import FacePalmVein from './pages/SettingLock/FacePalmVein.jsx'
 import PreventAccidentalOpen from './pages/SettingLock/PreventAccidentalOpen.jsx'
 import HomeKitSetting from './pages/SettingLock/HomeKitSetting.jsx'
+import ConfigPanel from './pages/SettingLock/ConfigPanel.jsx'
 
 const setHash = (h) => { window.location.hash = h }
 
@@ -24,7 +25,6 @@ export default function App() {
   const isClean = view.includes('clean=1')
 
   const navigateSL = (target) => {
-    // 简化的 SettingLock 内部导航
     const map = {
       child: 'setting-lock-child',
       reverse: 'setting-lock-reverse',
@@ -93,7 +93,12 @@ export default function App() {
           )}
         </>
       )}
-      {content}
+      {isSettingLockView ? (
+        <div className="sl-layout">
+          <div className="sl-layout-stage">{content}</div>
+          <ConfigPanel />
+        </div>
+      ) : content}
     </div>
   )
 }
