@@ -1,18 +1,42 @@
 import { useState, useEffect } from 'react'
 import LockHome from './pages/LockHome/index.jsx'
 import ElectricityManagement from './pages/ElectricityManagement/index.jsx'
+import SettingLock from './pages/SettingLock/index.jsx'
+import SettingLockChild from './pages/SettingLock/SettingLockChild.jsx'
+import ReverseLock from './pages/SettingLock/ReverseLock.jsx'
+import AntiLockPage from './pages/SettingLock/AntiLockPage.jsx'
+import FacePalmVein from './pages/SettingLock/FacePalmVein.jsx'
+import PreventAccidentalOpen from './pages/SettingLock/PreventAccidentalOpen.jsx'
+import HomeKitSetting from './pages/SettingLock/HomeKitSetting.jsx'
+
+const setHash = (h) => { window.location.hash = h }
 
 export default function App() {
-  const [hash, setHash] = useState(typeof window !== 'undefined' ? window.location.hash : '')
+  const [hash, setHashState] = useState(typeof window !== 'undefined' ? window.location.hash : '')
 
   useEffect(() => {
-    const onChange = () => setHash(window.location.hash)
+    const onChange = () => setHashState(window.location.hash)
     window.addEventListener('hashchange', onChange)
     return () => window.removeEventListener('hashchange', onChange)
   }, [])
 
-  const view = hash.replace('#', '') || 'elec'
+  const view = hash.replace('#', '') || 'setting-lock'
   const isClean = view.includes('clean=1')
+
+  const navigateSL = (target) => {
+    // 简化的 SettingLock 内部导航
+    const map = {
+      child: 'setting-lock-child',
+      reverse: 'setting-lock-reverse',
+      antilock: 'setting-lock-antilock',
+      'face-palm': 'setting-lock-face-palm',
+      prevent: 'setting-lock-prevent',
+      homekit: 'setting-lock-homekit'
+    }
+    setHash(map[target] || target)
+  }
+  const backToSettingLock = () => setHash('setting-lock')
+  const backToReverse = () => setHash('setting-lock-reverse')
 
   let content = null
   if (view === 'home') {
@@ -21,7 +45,7 @@ export default function App() {
     const params = new URLSearchParams(view.split('?')[1] || '')
     content = (
       <ElectricityManagement
-        onBack={() => { window.location.hash = 'home' }}
+        onBack={() => setHash('home')}
         initialMode={params.get('mode') || 'standard'}
         initialSheet={params.get('sheet') === '1'}
         initialConfirm={params.get('confirm') === '1'}
@@ -29,20 +53,45 @@ export default function App() {
         initialSaving={params.get('saving') === '1'}
       />
     )
+  } else if (view === 'setting-lock') {
+    content = <SettingLock onBack={() => setHash('home')} navigate={navigateSL} />
+  } else if (view === 'setting-lock-child') {
+    content = <SettingLockChild onBack={backToSettingLock} />
+  } else if (view === 'setting-lock-reverse') {
+    content = <ReverseLock onBack={backToSettingLock} navigate={navigateSL} />
+  } else if (view === 'setting-lock-antilock') {
+    content = <AntiLockPage onBack={backToReverse} />
+  } else if (view === 'setting-lock-face-palm') {
+    content = <FacePalmVein onBack={backToSettingLock} />
+  } else if (view === 'setting-lock-prevent') {
+    content = <PreventAccidentalOpen onBack={backToSettingLock} />
+  } else if (view === 'setting-lock-homekit') {
+    content = <HomeKitSetting onBack={backToSettingLock} />
   }
+
+  const isSettingLockView = view.startsWith('setting-lock')
 
   return (
     <div className={`app-frame ${isClean ? 'clean' : ''}`}>
       {!isClean && (
-        <div className="dev-nav">
-          <button className={view === 'home' ? 'active' : ''} onClick={() => { window.location.hash = 'home' }}>首页</button>
-          <button className={view === 'elec' ? 'active' : ''} onClick={() => { window.location.hash = 'elec' }}>电量管理</button>
-          <button className={view.includes('mode=custom') ? 'active' : ''} onClick={() => { window.location.hash = 'elec?mode=custom' }}>自定义</button>
-          <button className={view.includes('sheet=1') ? 'active' : ''} onClick={() => { window.location.hash = 'elec?sheet=1' }}>模式选择</button>
-          <button className={view.includes('confirm=1') ? 'active' : ''} onClick={() => { window.location.hash = 'elec?confirm=1' }}>二次确认</button>
-          <button className={view.includes('sub=1') ? 'active' : ''} onClick={() => { window.location.hash = 'elec?sub=1' }}>相关设置</button>
-          <button className={view.includes('saving=1') ? 'active' : ''} onClick={() => { window.location.hash = 'elec?saving=1' }}>一键省电</button>
-        </div>
+        <>
+          <div className="dev-nav">
+            <button className={view === 'home' ? 'active' : ''} onClick={() => setHash('home')}>首页</button>
+            <button className={view.startsWith('elec') ? 'active' : ''} onClick={() => setHash('elec')}>电量管理</button>
+            <button className={isSettingLockView ? 'active' : ''} onClick={() => setHash('setting-lock')}>门锁设置</button>
+          </div>
+          {isSettingLockView && (
+            <div className="dev-nav" style={{ marginTop: -6 }}>
+              <button className={view === 'setting-lock' ? 'active' : ''} onClick={() => setHash('setting-lock')}>主页</button>
+              <button className={view === 'setting-lock-face-palm' ? 'active' : ''} onClick={() => setHash('setting-lock-face-palm')}>识别</button>
+              <button className={view === 'setting-lock-prevent' ? 'active' : ''} onClick={() => setHash('setting-lock-prevent')}>防误开</button>
+              <button className={view === 'setting-lock-child' ? 'active' : ''} onClick={() => setHash('setting-lock-child')}>童锁</button>
+              <button className={view === 'setting-lock-reverse' ? 'active' : ''} onClick={() => setHash('setting-lock-reverse')}>反锁</button>
+              <button className={view === 'setting-lock-antilock' ? 'active' : ''} onClick={() => setHash('setting-lock-antilock')}>免反锁</button>
+              <button className={view === 'setting-lock-homekit' ? 'active' : ''} onClick={() => setHash('setting-lock-homekit')}>HomeKit</button>
+            </div>
+          )}
+        </>
       )}
       {content}
     </div>

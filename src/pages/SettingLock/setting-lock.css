@@ -1,0 +1,489 @@
+/* SettingLock 共用样式 - 复刻 miot.lock.spec 5max/pages/settings/settingLock 的视觉 */
+
+.sl-page {
+  position: relative;
+  width: 392px;
+  min-height: 872px;
+  background: #f5f5f7;
+  border-radius: 24px;
+  overflow: hidden;
+  font-family: "MiSans", -apple-system, "PingFang SC", sans-serif;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+  color: #000;
+  display: flex;
+  flex-direction: column;
+}
+
+.sl-page.gradient {
+  background: linear-gradient(180deg, #eef2f7 0%, #f5f5f7 40%);
+}
+
+.sl-status-bar {
+  height: 40px;
+  padding: 12px 18px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+.sl-status-icons {
+  display: flex;
+  gap: 6px;
+  font-size: 12px;
+}
+
+.sl-nav-bar {
+  height: 44px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.sl-nav-btn {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.sl-nav-title {
+  flex: 1;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 500;
+}
+.sl-nav-right {
+  width: 32px;
+}
+
+.sl-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 24px;
+}
+
+/* Header banner */
+.sl-header-image-view {
+  padding: 12px 16px 16px;
+  text-align: center;
+}
+.sl-header-image-box {
+  width: 100%;
+  height: 168px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #e5edf7 0%, #cfdbeb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+.sl-header-image-box img {
+  max-width: 60%;
+  max-height: 60%;
+  object-fit: contain;
+}
+.sl-header-image-text {
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(0, 0, 0, 0.55);
+  padding: 0 4px;
+  text-align: left;
+}
+
+/* Section 标题 */
+.sl-section {
+  margin: 12px 12px 0;
+}
+.sl-section-header {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.55);
+  padding: 12px 8px 8px;
+  font-weight: 400;
+}
+.sl-section-box {
+  background: #ffffff;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* 通用行 */
+.sl-row {
+  padding: 14px 16px;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.sl-row:last-child {
+  border-bottom: 0;
+}
+.sl-row:active {
+  background: rgba(0, 0, 0, 0.03);
+}
+.sl-row.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.sl-row.no-arrow {
+  cursor: default;
+}
+.sl-row.no-arrow:active {
+  background: transparent;
+}
+
+.sl-row-text {
+  flex: 1;
+  min-width: 0;
+}
+.sl-row-label {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #000;
+}
+.sl-row-sub {
+  font-size: 13px;
+  line-height: 1.4;
+  color: rgba(0, 0, 0, 0.55);
+  margin-top: 4px;
+}
+.sl-row-value {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.5);
+  max-width: 160px;
+  justify-content: flex-end;
+}
+.sl-row-arrow {
+  width: 16px;
+  height: 16px;
+  opacity: 0.4;
+}
+
+/* iOS Switch */
+.sl-switch {
+  width: 50px;
+  height: 28px;
+  border-radius: 14px;
+  background: #e5e5ea;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.sl-switch::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s;
+}
+.sl-switch.on {
+  background: #34c759;
+}
+.sl-switch.on::after {
+  transform: translateX(22px);
+}
+.sl-switch.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Radio 卡片 */
+.sl-radio-card {
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.sl-radio-card:last-child {
+  border-bottom: 0;
+}
+.sl-radio-check {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.sl-radio-check.checked svg {
+  color: #34c759;
+}
+.sl-radio-body {
+  flex: 1;
+  min-width: 0;
+}
+.sl-radio-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+}
+.sl-radio-title.active {
+  color: #34c759;
+}
+.sl-radio-desc {
+  margin-top: 4px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: rgba(0, 0, 0, 0.55);
+}
+.sl-radio-desc.active {
+  color: rgba(52, 199, 89, 0.85);
+}
+
+/* 弹窗 */
+.sl-dialog-mask {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 28px;
+}
+.sl-dialog {
+  background: #fff;
+  border-radius: 16px;
+  width: 100%;
+  overflow: hidden;
+  animation: sl-dialog-in 0.16s ease-out;
+}
+@keyframes sl-dialog-in {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
+.sl-dialog-title {
+  padding: 20px 20px 8px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 500;
+  color: #000;
+}
+.sl-dialog-body {
+  padding: 4px 20px 20px;
+  font-size: 15px;
+  line-height: 1.55;
+  color: rgba(0, 0, 0, 0.75);
+  text-align: center;
+}
+.sl-dialog-body.left {
+  text-align: left;
+}
+.sl-dialog-tip {
+  margin-top: 12px;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.45);
+  text-align: left;
+}
+.sl-dialog-buttons {
+  display: flex;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+.sl-dialog-btn {
+  flex: 1;
+  padding: 14px 0;
+  background: transparent;
+  border: 0;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #000;
+}
+.sl-dialog-btn + .sl-dialog-btn {
+  border-left: 1px solid rgba(0, 0, 0, 0.06);
+}
+.sl-dialog-btn.danger {
+  color: #ff3b30;
+}
+.sl-dialog-btn.primary {
+  color: #007aff;
+}
+
+/* Toast */
+.sl-toast {
+  position: absolute;
+  left: 50%;
+  bottom: 80px;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 20px;
+  font-size: 14px;
+  z-index: 200;
+  white-space: nowrap;
+  animation: sl-toast-in 0.2s ease-out;
+}
+@keyframes sl-toast-in {
+  from { opacity: 0; transform: translate(-50%, 4px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
+
+/* 底部固定按钮 */
+.sl-bottom-bar {
+  position: absolute;
+  bottom: 28px;
+  left: 0;
+  right: 0;
+  padding: 0 16px;
+  display: flex;
+  justify-content: center;
+}
+.sl-primary-btn {
+  width: 90%;
+  height: 50px;
+  border-radius: 16px;
+  background: #34c759;
+  color: #fff;
+  border: 0;
+  font-size: 17px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.sl-primary-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* 用户列表 */
+.sl-user-list {
+  padding: 12px 12px 120px;
+}
+.sl-user-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #fff;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  min-height: 60px;
+}
+.sl-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ffd6a5 0%, #ffb28f 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #fff;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.sl-user-info {
+  flex: 1;
+  min-width: 0;
+}
+.sl-user-name {
+  font-size: 16px;
+  font-weight: 500;
+  color: #000;
+}
+.sl-user-owner-tag {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.4);
+  margin-top: 2px;
+}
+.sl-check-box {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #e5e5ea;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sl-check-box.checked {
+  background: #34c759;
+}
+.sl-check-box.checked::after {
+  content: '';
+  width: 10px;
+  height: 6px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+
+/* 选项底部弹层 */
+.sl-sheet-mask {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  animation: sl-mask-in 0.18s ease-out;
+}
+@keyframes sl-mask-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.sl-sheet {
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  width: 100%;
+  padding: 8px 0 24px;
+  animation: sl-sheet-in 0.22s ease-out;
+}
+@keyframes sl-sheet-in {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.sl-sheet-title {
+  padding: 16px 20px 8px;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+}
+.sl-sheet-item {
+  padding: 16px 20px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+.sl-sheet-item.selected {
+  color: #34c759;
+}
+.sl-sheet-cancel {
+  margin: 8px 12px 0;
+  padding: 14px 0;
+  background: #f5f5f7;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 16px;
+  color: #000;
+  cursor: pointer;
+  border: 0;
+  width: calc(100% - 24px);
+}
