@@ -40,6 +40,25 @@ const state = {
   uwbUnlockSleepTime: 0,
   deadlockUids: [1, 2],
 
+  // ---------- 声音和提醒相关 spec 值 ----------
+  doorOperationVolume: 'Medium',       // 使用提示音量
+  doorClosingReminderVolume: 'Medium', // 上锁成功提示音
+  setFunctionReminder: 'On',           // 功能提示音
+  doorbellRingtone: 'Classic',         // 铃声选择
+  doorbellVolume: 'Medium',            // 门铃音量
+  soundOption: 'Default',              // 提示音音效
+  vocalType: 'Female',                 // 人声音色
+  language: 'Chinese',                 // 播报语言
+  doorOpenReminderVolume: 'Medium',    // 门未关提示音量
+  doorOpenReminderTime: '30s',         // 门未关提示时间
+  doorOpenReminderFreq: '30s',         // 再次提示间隔
+  doorOpenReminderFreqSwitch: true,    // 再次提示开关
+  doorNotClosedReminder: true,         // 门未关告警开关
+  doorAjarReminderVolume: 'Medium',    // 门虚掩提示音量
+  doorAjarReminderTime: '20s',         // 门虚掩提示时间
+  doorLockBrokenReminderVolume: 'High',// 机械异常提示音量
+  lowBatteryReminderSwitch: true,      // 低电量提醒开关
+
   // ---------- 运行时上下文 ----------
   ownerHasFingerprint: true,
   ownerHasPassword: true,

@@ -8,6 +8,9 @@ import AntiLockPage from './pages/SettingLock/AntiLockPage.jsx'
 import FacePalmVein from './pages/SettingLock/FacePalmVein.jsx'
 import PreventAccidentalOpen from './pages/SettingLock/PreventAccidentalOpen.jsx'
 import HomeKitSetting from './pages/SettingLock/HomeKitSetting.jsx'
+import SoundSettings from './pages/SettingLock/SoundSettings.jsx'
+import DoorNotClose from './pages/SettingLock/DoorNotClose.jsx'
+import AbnormalPage from './pages/SettingLock/AbnormalPage.jsx'
 import ConfigPanel from './pages/SettingLock/ConfigPanel.jsx'
 
 const setHash = (h) => { window.location.hash = h }
@@ -31,7 +34,9 @@ export default function App() {
       antilock: 'setting-lock-antilock',
       'face-palm': 'setting-lock-face-palm',
       prevent: 'setting-lock-prevent',
-      homekit: 'setting-lock-homekit'
+      homekit: 'setting-lock-homekit',
+      'sound-doornotclose': 'sound-doornotclose',
+      'sound-abnormal': 'sound-abnormal'
     }
     setHash(map[target] || target)
   }
@@ -67,9 +72,15 @@ export default function App() {
     content = <PreventAccidentalOpen onBack={backToSettingLock} />
   } else if (view === 'setting-lock-homekit') {
     content = <HomeKitSetting onBack={backToSettingLock} />
+  } else if (view === 'sound-settings') {
+    content = <SoundSettings onBack={() => setHash('home')} navigate={navigateSL} />
+  } else if (view === 'sound-doornotclose') {
+    content = <DoorNotClose onBack={() => setHash('sound-settings')} />
+  } else if (view === 'sound-abnormal') {
+    content = <AbnormalPage onBack={() => setHash('sound-settings')} />
   }
 
-  const isSettingLockView = view.startsWith('setting-lock')
+  const isSettingLockView = view.startsWith('setting-lock') || view.startsWith('sound-')
 
   return (
     <div className={`app-frame ${isClean ? 'clean' : ''}`}>
@@ -78,17 +89,21 @@ export default function App() {
           <div className="dev-nav">
             <button className={view === 'home' ? 'active' : ''} onClick={() => setHash('home')}>首页</button>
             <button className={view.startsWith('elec') ? 'active' : ''} onClick={() => setHash('elec')}>电量管理</button>
-            <button className={isSettingLockView ? 'active' : ''} onClick={() => setHash('setting-lock')}>门锁设置</button>
+            <button className={view.startsWith('setting-lock') ? 'active' : ''} onClick={() => setHash('setting-lock')}>门锁设置</button>
+            <button className={view.startsWith('sound-') ? 'active' : ''} onClick={() => setHash('sound-settings')}>声音和提醒</button>
           </div>
           {isSettingLockView && (
             <div className="dev-nav" style={{ marginTop: -6 }}>
-              <button className={view === 'setting-lock' ? 'active' : ''} onClick={() => setHash('setting-lock')}>主页</button>
+              <button className={view === 'setting-lock' ? 'active' : ''} onClick={() => setHash('setting-lock')}>门锁设置主页</button>
               <button className={view === 'setting-lock-face-palm' ? 'active' : ''} onClick={() => setHash('setting-lock-face-palm')}>识别</button>
               <button className={view === 'setting-lock-prevent' ? 'active' : ''} onClick={() => setHash('setting-lock-prevent')}>防误开</button>
               <button className={view === 'setting-lock-child' ? 'active' : ''} onClick={() => setHash('setting-lock-child')}>童锁</button>
               <button className={view === 'setting-lock-reverse' ? 'active' : ''} onClick={() => setHash('setting-lock-reverse')}>反锁</button>
               <button className={view === 'setting-lock-antilock' ? 'active' : ''} onClick={() => setHash('setting-lock-antilock')}>免反锁</button>
               <button className={view === 'setting-lock-homekit' ? 'active' : ''} onClick={() => setHash('setting-lock-homekit')}>HomeKit</button>
+              <button className={view === 'sound-settings' ? 'active' : ''} onClick={() => setHash('sound-settings')}>声音主页</button>
+              <button className={view === 'sound-doornotclose' ? 'active' : ''} onClick={() => setHash('sound-doornotclose')}>门未关</button>
+              <button className={view === 'sound-abnormal' ? 'active' : ''} onClick={() => setHash('sound-abnormal')}>其他异常</button>
             </div>
           )}
         </>

@@ -2,9 +2,10 @@
 // 数据依据尽量来自 miot.lock.spec 生产代码；无证据的项目标注 '?'
 // 用户在 Config 面板里可以随时手动改，preset 只是快速起点
 
-// 16 个 property 的 key 列表（settingLock 模块依赖）
+// 覆盖两个模块所有 property：settingLock + settingLockVoice
 export const SPEC_KEYS = {
   lock: [
+    // settingLock
     'homekitSwitch',
     'homekitBindStatusSync',
     'uwbSwitch',
@@ -17,9 +18,34 @@ export const SPEC_KEYS = {
     'faceUnlockSleepTime',
     'uwbUnlockSleepTime',
     'resetWithVerificationRequiredSetting',
+    // settingLockVoice
+    'vocalType',
+    'soundOption',
+    'doorOpenReminderFreq',
+    'doorOpenReminderFreqSwitch',
   ],
-  wifiDoorbell: ['on', 'doorbellLightOn'],
+  wifiDoorbell: [
+    // settingLock
+    'on',
+    'doorbellLightOn',
+    // settingLockVoice
+    'ringtone',
+    'volume',
+  ],
   lockManage: ['operationMethod', 'userDeadboltPermission'],
+  lockVolumeManagement: [
+    'doorOperationVolume',
+    'language',
+    'doorClosingReminderVolume',
+    'setFunctionReminder',
+    'doorOpenReminderVolume',
+    'doorOpenReminderTime',
+    'doorNotClosedReminder',
+    'doorAjarReminderVolume',
+    'doorAjarReminderTime',
+    'doorLockBrokenReminderVolume',
+    'lowBatteryReminderSwitch',
+  ],
 }
 
 // 全量默认存在（用于"典型 5Max"起点）
