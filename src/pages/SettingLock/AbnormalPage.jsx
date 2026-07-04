@@ -90,16 +90,16 @@ export default function AbnormalPage({ onBack }) {
           <Section title="更多异常">
             {showLowBattery ? (
               <SwitchRow
-                label={<>低电量提醒{badge(['lockVolumeManagement.lowBatteryReminderSwitch'])}</>}
-                sub="低电量时门锁语音提醒"
+                label={<>低电量提示音{badge(['lockVolumeManagement.lowBatteryReminderSwitch'])}</>}
+                sub="功能关闭后，电量即将耗尽时仍会提醒"
                 value={s.lowBatteryReminderSwitch}
                 onChange={(v) => { setState({ lowBatteryReminderSwitch: v }); showToast('设置成功') }}
               />
             ) : null}
             {showLockBroken ? (
-              <div className="sl-row" onClick={() => openSheet('doorLockBrokenReminderVolume', VOLUME_OPTIONS, s.doorLockBrokenReminderVolume, '机械异常提示音')}>
+              <div className="sl-row" onClick={() => openSheet('doorLockBrokenReminderVolume', VOLUME_OPTIONS, s.doorLockBrokenReminderVolume, '门锁异常提示音')}>
                 <div className="sl-row-text">
-                  <div className="sl-row-label">机械异常提示音</div>
+                  <div className="sl-row-label">门锁异常提示音</div>
                   <div className="sl-row-sub">门锁被撬、开门异常和关门异常等</div>
                   {badge(['lockVolumeManagement.doorLockBrokenReminderVolume'])}
                 </div>
