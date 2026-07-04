@@ -50,8 +50,9 @@ export const SPEC_KEYS = {
 
 // 全量默认存在（用于"典型 5Max"起点）
 const ALL_TRUE = () => {
-  const s = { lock: {}, wifiDoorbell: {}, lockManage: {} }
+  const s = {}
   Object.entries(SPEC_KEYS).forEach(([svc, props]) => {
+    s[svc] = {}
     props.forEach((p) => { s[svc][p] = true })
   })
   return s
