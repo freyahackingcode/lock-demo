@@ -5,7 +5,9 @@
 #   https://<username>.pages.git.n.xiaomi.com/<project-name>/
 # 或使用项目 URL 形式，具体以你们内网 Pages 域名为准
 
-image: node:20-alpine
+# 使用小米内网 docker registry 镜像
+# 公共 Docker Hub 在 Runner 上被墙，需通过内网 mirror 拉取
+image: cr.d.xiaomi.net/library/node:20-alpine
 
 stages:
   - build
