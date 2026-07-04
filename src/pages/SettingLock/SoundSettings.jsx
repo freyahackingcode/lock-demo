@@ -29,11 +29,8 @@ const RINGTONE_OPTIONS = [
 ]
 const RINGTONE_TEXT = { Classic: '经典门铃', DingDong: '叮咚', Melody: '轻快旋律', Chime: '风铃' }
 
-const FUNCTION_REMINDER_OPTIONS = [
-  { value: 'Off', label: '关闭' },
-  { value: 'On', label: '开启' },
-]
-const FUNCTION_REMINDER_TEXT = { Off: '关闭', On: '开启' }
+// 功能设置提示音：与同 section 的音量类 spec 一样是 DROPDOWN 多档
+// value-list 由固件运行时上报，此处按业务预期给 静音/低/中/高
 
 const SOUND_OPTIONS = [
   { value: 'Default', label: '默认' },
@@ -164,14 +161,14 @@ export default function SoundSettings({ onBack, navigate }) {
             </div>
           ) : null}
           {showFuncReminder ? (
-            <div className="sl-row" onClick={() => openSheet('setFunctionReminder', FUNCTION_REMINDER_OPTIONS, s.setFunctionReminder, '功能设置提示音')}>
+            <div className="sl-row" onClick={() => openSheet('setFunctionReminder', VOLUME_OPTIONS, s.setFunctionReminder, '功能设置提示音')}>
               <div className="sl-row-text">
                 <div className="sl-row-label">功能设置提示音</div>
                 <div className="sl-row-sub">童锁与反锁，钥匙添加与验证</div>
-                {badge(['lockVolumeManagement.setFunctionReminder'], 'custom_config 下发')}
+                {badge(['lockVolumeManagement.setFunctionReminder'], '副文案 custom_config 下发')}
               </div>
               <div className="sl-row-value">
-                <span>{FUNCTION_REMINDER_TEXT[s.setFunctionReminder]}</span>
+                <span>{VOLUME_TEXT[s.setFunctionReminder] || s.setFunctionReminder}</span>
                 <ArrowDown />
               </div>
             </div>

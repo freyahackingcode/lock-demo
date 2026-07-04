@@ -43,7 +43,7 @@ const state = {
   // ---------- 声音和提醒相关 spec 值 ----------
   doorOperationVolume: 'Medium',       // 使用提示音量
   doorClosingReminderVolume: 'Medium', // 上锁成功提示音
-  setFunctionReminder: 'On',           // 功能提示音
+  setFunctionReminder: 'Medium',       // 功能设置提示音（音量多档，DROPDOWN）
   doorbellRingtone: 'Classic',         // 铃声选择
   doorbellVolume: 'Medium',            // 门铃音量
   soundOption: 'Default',              // 提示音音效
