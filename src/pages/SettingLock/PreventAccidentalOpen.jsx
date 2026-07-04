@@ -1,8 +1,9 @@
 // 防误开落地页
-// 对应生产代码：settingLock/preventAccidentalOpen.js
+// 对应生产代码：miot.lock.spec/plugin-generator/categories/std_lock/5max/pages/settings/settingLock/preventAccidentalOpen.js
+// 两个独立 section：faceUnlockSleepTime / uwbUnlockSleepTime 各自按 spec 存在性显示
 import { useEffect, useState } from 'react'
 import { StatusBar, NavBar, Section, Toast, OptionSheet } from './components.jsx'
-import { getState, setState, subscribe } from './store.js'
+import { getState, setState, subscribe, hasSpec } from './store.js'
 import './setting-lock.css'
 
 function useStore() {
@@ -28,15 +29,12 @@ function formatTime(v) {
 export default function PreventAccidentalOpen({ onBack }) {
   const s = useStore()
   const [toast, setToast] = useState('')
-  const [sheet, setSheet] = useState(null) // 'bio' | 'uwb' | null
+  const [sheet, setSheet] = useState(null)
 
   const showToast = (m) => {
     setToast(m)
     setTimeout(() => setToast(''), 2000)
   }
-
-  const openBio = () => setSheet('bio')
-  const openUwb = () => setSheet('uwb')
 
   const onSelect = (v) => {
     if (sheet === 'bio') setState({ faceUnlockSleepTime: v })
@@ -44,6 +42,9 @@ export default function PreventAccidentalOpen({ onBack }) {
     setSheet(null)
     showToast('设置成功')
   }
+
+  const showBio = hasSpec('lock', 'faceUnlockSleepTime')
+  const showUwb = hasSpec('lock', 'uwbUnlockSleepTime')
 
   return (
     <div className="sl-page gradient">
@@ -57,33 +58,45 @@ export default function PreventAccidentalOpen({ onBack }) {
           </div>
         </div>
 
-        <Section>
-          <div className="sl-row" onClick={openBio}>
-            <div className="sl-row-text">
-              <div className="sl-row-label">人脸、掌静脉防误开</div>
+        {showBio ? (
+          <Section>
+            <div className="sl-row" onClick={() => setSheet('bio')}>
+              <div className="sl-row-text">
+                <div className="sl-row-label">人脸、掌静脉防误开</div>
+              </div>
+              <div className="sl-row-value">
+                <span>{formatTime(s.faceUnlockSleepTime)}</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M3.5 5.5L7 9L10.5 5.5" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
             </div>
-            <div className="sl-row-value">
-              <span>{formatTime(s.faceUnlockSleepTime)}</span>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M3.5 5.5L7 9L10.5 5.5" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
-          </div>
-        </Section>
+          </Section>
+        ) : null}
 
-        <Section>
-          <div className="sl-row" onClick={openUwb}>
-            <div className="sl-row-text">
-              <div className="sl-row-label">UWB 防误开</div>
+        {showUwb ? (
+          <Section>
+            <div className="sl-row" onClick={() => setSheet('uwb')}>
+              <div className="sl-row-text">
+                <div className="sl-row-label">UWB 防误开</div>
+              </div>
+              <div className="sl-row-value">
+                <span>{formatTime(s.uwbUnlockSleepTime)}</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M3.5 5.5L7 9L10.5 5.5" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </div>
             </div>
-            <div className="sl-row-value">
-              <span>{formatTime(s.uwbUnlockSleepTime)}</span>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M3.5 5.5L7 9L10.5 5.5" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
+          </Section>
+        ) : null}
+
+        {!showBio && !showUwb ? (
+          <div className="sl-header-image-view" style={{ marginTop: 40 }}>
+            <div className="sl-header-image-text" style={{ textAlign: 'center' }}>
+              当前 model 未上报防误开相关 spec，此页无内容
             </div>
           </div>
-        </Section>
+        ) : null}
       </div>
 
       <OptionSheet

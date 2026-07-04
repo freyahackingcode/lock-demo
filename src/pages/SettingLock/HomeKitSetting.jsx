@@ -1,8 +1,9 @@
 // HomeKit 设置落地页
-// 对应生产代码：settingLock/homeKitSetting.js
+// 对应生产代码：miot.lock.spec/plugin-generator/categories/std_lock/5max/pages/settings/settingLock/homeKitSetting.js
+// banner 是硬编码 CDN URL（生产代码 line 230）
 import { useEffect, useState } from 'react'
-import { StatusBar, NavBar, Section, SwitchRow, NavigationRow, Dialog, Toast } from './components.jsx'
-import { getState, setState, subscribe } from './store.js'
+import { StatusBar, NavBar, Section, SwitchRow, NavigationRow, Toast } from './components.jsx'
+import { getState, setState, subscribe, HOMEKIT_BANNER_URL } from './store.js'
 import './setting-lock.css'
 
 function useStore() {
@@ -14,7 +15,7 @@ function useStore() {
 export default function HomeKitSetting({ onBack }) {
   const s = useStore()
   const [toast, setToast] = useState('')
-  const [rebindDlg, setRebindDlg] = useState(null) // 'auto' | 'manual' | null
+  const [rebindDlg, setRebindDlg] = useState(null)
   const [dontRemind, setDontRemind] = useState(false)
 
   const showToast = (m) => {
@@ -22,13 +23,8 @@ export default function HomeKitSetting({ onBack }) {
     setTimeout(() => setToast(''), 2000)
   }
 
-  // 绑定状态判定（对齐代码优先级）
-  // 1. isNewLockHomeKitBinded === true → 已绑
-  // 2. spec homekitBindStatusSync === true → 已绑
-  // 3. 都为 false → 未绑
   const isBound = s.isNewLockHomeKitBinded || s.homekitBindStatusSync
 
-  // 自动弹窗触发：homekitBindStatusSync=true 且 iOS 未识别 且 未勾选
   useEffect(() => {
     if (
       s.homekitBindStatusSync &&
@@ -45,7 +41,6 @@ export default function HomeKitSetting({ onBack }) {
     if (isBound) {
       setRebindDlg('manual')
     } else {
-      // 未绑：模拟 doAction(startHomekitAdv) + addNewLockToHomeKit 成功
       setState({ isNewLockHomeKitBinded: true, homekitBindStatusSync: true, homekitSwitch: true })
       showToast('已发起绑定，请在 iOS "家庭" App 中完成')
     }
@@ -57,7 +52,6 @@ export default function HomeKitSetting({ onBack }) {
   }
 
   const handleReset = () => {
-    // 模拟：清除本机绑定 + 门锁 spec 绑定态
     setState({
       isNewLockHomeKitBinded: false,
       homekitBindStatusSync: false,
@@ -74,7 +68,6 @@ export default function HomeKitSetting({ onBack }) {
   }
 
   const dlgTitle = rebindDlg === 'auto' ? '重要提示' : '确认重置绑定？'
-  const dlgBody = '重置绑定 HomeKit 后，之前绑定的"家庭"将无法操作该门锁'
 
   return (
     <div className="sl-page gradient">
@@ -83,8 +76,10 @@ export default function HomeKitSetting({ onBack }) {
 
       <div className="sl-scroll">
         <div className="sl-header-image-view">
+          {/* 生产实际 banner: homeKitSetting.js:230 硬编码 CDN URL */}
           <div className="sl-header-image-box">
-            <div style={{ fontSize: 56 }}>🏠</div>
+            <img src={HOMEKIT_BANNER_URL} alt="HomeKit" style={{ maxHeight: '80%', maxWidth: '80%' }}
+              onError={(e) => { e.target.style.display = 'none' }} />
           </div>
           <div className="sl-header-image-text">
             可通过"家庭"操作门锁。需要使用 iOS 11.3 及以上系统进行绑定
@@ -117,7 +112,7 @@ export default function HomeKitSetting({ onBack }) {
                   如果是未授权的 Apple 账号绑定了当前门锁，建议您立即重置绑定。
                 </div>
               ) : (
-                <div>{dlgBody}</div>
+                <div>重置绑定 HomeKit 后，之前绑定的"家庭"将无法操作该门锁</div>
               )}
               {rebindDlg === 'auto' && (
                 <label style={{

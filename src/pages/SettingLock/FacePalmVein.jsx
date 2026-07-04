@@ -1,8 +1,10 @@
 // 人脸、掌静脉自动识别落地页
-// 对应生产代码：settingLock/facePalmVein.js
+// 对应生产代码：miot.lock.spec/plugin-generator/categories/std_lock/5max/pages/settings/settingLock/facePalmVein.js
+// 灵敏度子行显隐条件：Auto 态 + lock.faceUnlockSensitivity spec 存在
 import { useEffect, useState } from 'react'
-import { StatusBar, NavBar, Section, NavigationRow, Toast, OptionSheet } from './components.jsx'
-import { getState, setState, subscribe } from './store.js'
+import { StatusBar, NavBar, Section, Toast, OptionSheet } from './components.jsx'
+import PlaceholderBanner from './PlaceholderBanner.jsx'
+import { getState, setState, subscribe, hasSpec } from './store.js'
 import './setting-lock.css'
 
 function useStore() {
@@ -35,6 +37,7 @@ export default function FacePalmVein({ onBack }) {
 
   const isAuto = s.triggeringMethod === 'Auto'
   const isManual = s.triggeringMethod === 'Manual'
+  const showSensitivity = isAuto && hasSpec('lock', 'faceUnlockSensitivity')
 
   return (
     <div className="sl-page gradient">
@@ -43,9 +46,8 @@ export default function FacePalmVein({ onBack }) {
 
       <div className="sl-scroll">
         <div className="sl-header-image-view">
-          <div className="sl-header-image-box">
-            <div style={{ fontSize: 64 }}>👁️</div>
-          </div>
+          {/* 生产实际 banner 走 custom_config.lock-setting.face-palm-vein-recognition-unlocking */}
+          <PlaceholderBanner icon="👁️" tint="green" />
         </div>
 
         {/* Auto 卡片 */}
@@ -70,7 +72,7 @@ export default function FacePalmVein({ onBack }) {
               </div>
             </div>
           </div>
-          {isAuto ? (
+          {showSensitivity ? (
             <div className="sl-row" onClick={() => setSheetOpen(true)}>
               <div className="sl-row-text">
                 <div className="sl-row-label">识别灵敏度</div>

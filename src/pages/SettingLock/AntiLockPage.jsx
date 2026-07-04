@@ -1,5 +1,6 @@
 // 免反锁家人选择页
-// 对应生产代码：pages/users/user-antiLock.js
+// 对应生产代码：miot.lock.spec/plugin-generator/categories/std_lock/5max/pages/users/user-antiLock.js
+// 头像 URL 来自 miot.lock.spec/resources/images.js 的生产 CDN 硬编码链接
 import { useEffect, useState } from 'react'
 import { StatusBar, NavBar, Dialog, Toast } from './components.jsx'
 import { getState, setState, subscribe, LOCK_USERS } from './store.js'
@@ -51,7 +52,7 @@ export default function AntiLockPage({ onBack }) {
             const checked = selected.includes(u.uid)
             return (
               <div key={u.uid} className="sl-user-item" onClick={() => toggle(u.uid)}>
-                <div className="sl-user-avatar">{u.avatar}</div>
+                <img className="sl-user-avatar-img" src={u.avatar} alt={u.name} />
                 <div className="sl-user-info">
                   <div className="sl-user-name">{u.name}</div>
                   {u.isOwner ? <div className="sl-user-owner-tag">设备主人</div> : null}

@@ -395,6 +395,14 @@
   font-weight: 500;
   flex-shrink: 0;
 }
+.sl-user-avatar-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #eee;
+  flex-shrink: 0;
+}
 .sl-user-info {
   flex: 1;
   min-width: 0;
@@ -486,4 +494,236 @@
   cursor: pointer;
   border: 0;
   width: calc(100% - 24px);
+}
+
+/* ---------- Config 抽屉面板 ---------- */
+.sl-cfg-btn {
+  position: absolute;
+  top: 44px;
+  right: 12px;
+  z-index: 6;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.05);
+  border: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+.sl-cfg-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+.sl-cfg-mask {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 500;
+  display: flex;
+  justify-content: flex-end;
+}
+.sl-cfg-panel {
+  width: 88%;
+  height: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  animation: sl-cfg-in 0.22s ease-out;
+}
+@keyframes sl-cfg-in {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.sl-cfg-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.sl-cfg-title {
+  font-size: 15px;
+  font-weight: 500;
+}
+.sl-cfg-close {
+  width: 28px;
+  height: 28px;
+  border: 0;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.5);
+  line-height: 1;
+}
+.sl-cfg-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 16px 24px;
+}
+.sl-cfg-hint {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+.sl-cfg-hint code {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 11px;
+}
+.sl-cfg-group {
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f5f5f7;
+  border-radius: 12px;
+}
+.sl-cfg-group-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(0, 0, 0, 0.55);
+  margin-bottom: 8px;
+}
+.sl-cfg-select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  font-family: inherit;
+}
+.sl-cfg-verified {
+  margin-top: 8px;
+  padding: 8px 10px;
+  background: rgba(52, 199, 89, 0.08);
+  border-radius: 8px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.65);
+  line-height: 1.5;
+}
+.sl-cfg-verified b {
+  color: #219653;
+}
+.sl-cfg-unverified {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #d68000;
+  line-height: 1.5;
+}
+.sl-cfg-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13px;
+  gap: 8px;
+}
+.sl-cfg-seg {
+  display: flex;
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+}
+.sl-cfg-seg.vertical {
+  flex-direction: column;
+  padding: 4px;
+}
+.sl-cfg-seg button {
+  padding: 4px 10px;
+  border: 0;
+  background: transparent;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.5);
+}
+.sl-cfg-seg button.active {
+  background: #fff;
+  color: #000;
+  font-weight: 500;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+.sl-cfg-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.75);
+  cursor: pointer;
+}
+.sl-cfg-check input {
+  accent-color: #34c759;
+}
+.sl-cfg-footer {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.4);
+  line-height: 1.5;
+}
+
+/* ---------- spec badge ---------- */
+.sl-spec-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  margin-top: 4px;
+  padding: 2px 6px;
+  background: rgba(52, 122, 235, 0.08);
+  color: #5680d2;
+  font-size: 10px;
+  border-radius: 4px;
+  align-self: flex-start;
+  font-family: "SF Mono", "Menlo", monospace;
+}
+.sl-spec-badge-dot {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #5680d2;
+}
+
+/* ---------- 占位 banner ---------- */
+.sl-ph-banner {
+  width: 100%;
+  height: 168px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.sl-ph-icon {
+  font-size: 56px;
+  opacity: 0.6;
+}
+.sl-ph-tag {
+  padding: 3px 8px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 11px;
+  border-radius: 8px;
+}
+.sl-ph-note {
+  font-size: 11px;
+  color: rgba(0, 0, 0, 0.5);
+  padding: 0 16px;
+  text-align: center;
+}
+
+/* 让 sub 支持 badge 换行显示 */
+.sl-row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
