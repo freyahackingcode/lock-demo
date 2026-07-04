@@ -164,11 +164,11 @@ export default function SoundSettings({ onBack, navigate }) {
             </div>
           ) : null}
           {showFuncReminder ? (
-            <div className="sl-row" onClick={() => openSheet('setFunctionReminder', FUNCTION_REMINDER_OPTIONS, s.setFunctionReminder, '功能提示音')}>
+            <div className="sl-row" onClick={() => openSheet('setFunctionReminder', FUNCTION_REMINDER_OPTIONS, s.setFunctionReminder, '功能设置提示音')}>
               <div className="sl-row-text">
-                <div className="sl-row-label">功能提示音</div>
-                <div className="sl-row-sub">功能开启/关闭等设置成功后的语音提示</div>
-                {badge(['lockVolumeManagement.setFunctionReminder'])}
+                <div className="sl-row-label">功能设置提示音</div>
+                <div className="sl-row-sub">童锁与反锁，钥匙添加与验证</div>
+                {badge(['lockVolumeManagement.setFunctionReminder'], 'custom_config 下发')}
               </div>
               <div className="sl-row-value">
                 <span>{FUNCTION_REMINDER_TEXT[s.setFunctionReminder]}</span>
