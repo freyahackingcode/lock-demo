@@ -4,14 +4,14 @@
 
 ## 演示地址
 
-CI 构建完成后由 GitLab Pages 提供访问入口，具体链接见 **项目 Settings > Pages**（首次部署后可见）。
+**Public：** https://freyahackingcode.github.io/lock-demo/ （GitHub Pages，push 到 main 后自动更新）
 
 ## 本地启动
 
 前置：Node.js 18+ / npm
 
 ```bash
-git clone git@git.n.xiaomi.com:zhangyunqing1/lock-demo.git
+git clone https://github.com/freyahackingcode/lock-demo.git
 cd lock-demo
 npm install
 npm run dev
@@ -26,28 +26,33 @@ npm run build     # 产物落在 dist/
 npm run preview   # 本地预览构建结果
 ```
 
-构建时会启用 `base: '/lock-demo/'`，用于 GitLab Pages 子路径部署；本地 dev 时使用根路径。
+构建时启用 `base: '/lock-demo/'`，用于 GitHub Pages 子路径部署；本地 dev 时使用根路径。
 
 ## 目录结构
 
 ```
 lock-demo/
-├── src/                 # 源码
+├── src/                          # 源码
 │   ├── App.jsx
-│   ├── pages/          # 各功能页面
+│   ├── pages/                    # 各功能页面
 │   │   └── ElectricityManagement/   # 电量管理改版模块
 │   └── styles/
-├── public/             # 静态资源（构建时产物覆盖）
+├── public/                       # 静态资源
 ├── vite.config.js
-└── .gitlab-ci.yml      # CI/CD 配置，push 后自动部署 Pages
+├── .github/workflows/deploy.yml  # GitHub Actions 自动部署 Pages
+└── .gitlab-ci.yml                # GitLab CI 配置（备用）
 ```
 
 ## 部署流程
 
+**GitHub Pages（主）**：
 1. push 到 `main` 分支
-2. GitLab Runner 自动跑 `pages` job：`npm ci` → `npm run build` → 输出到 `public/`
-3. 部署完成后在 project **Settings > Pages** 查看访问地址
+2. GitHub Actions 自动跑 build → 部署 Pages
+3. 首次部署完成后访问 https://freyahackingcode.github.io/lock-demo/
 
-## 相关文档
+**小米内网 GitLab（备）**：
+仓库同时推送到 `git.n.xiaomi.com:zhangyunqing1/lock-demo`，供内网 clone。
+
+## 相关背景
 
 需求分析、竞品对标、客诉数据分析等背景资料存放在项目 owner 的 pm_agent 工作空间中，本 repo 仅包含 demo 代码。
