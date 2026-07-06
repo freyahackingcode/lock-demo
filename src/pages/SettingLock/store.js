@@ -59,6 +59,14 @@ const state = {
   doorLockBrokenReminderVolume: 'High',// 机械异常提示音量
   lowBatteryReminderSwitch: true,      // 低电量提醒开关
 
+  // ---------- 紧急事件电话通知（3.2.5 f） ----------
+  // 对齐生产：miot.lock.spec 5max/pages/settings/notificationManagement/customNotification.js 紧急电话入口
+  notifyHighTempAlarm: false,          // 室内高温报警开关（默认关）
+  notifyPryAlarm: false,               // 门锁被撬报警开关（默认关，需云端配置）
+  notifyDuressAlarm: false,            // 胁迫开锁报警总开关（默认关）
+  duressEnabledUsers: [],              // 已开启胁迫指纹的家人 uid 列表
+  emergencyContact: null,              // 紧急联系人（{ name, phone } | null，两个告警共用）
+
   // ---------- 运行时上下文 ----------
   ownerHasFingerprint: true,
   ownerHasPassword: true,

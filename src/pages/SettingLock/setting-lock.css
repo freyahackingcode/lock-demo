@@ -721,3 +721,56 @@
   flex-direction: column;
   gap: 2px;
 }
+
+/* 告警落地页 hero */
+.sl-alarm-hero {
+  margin: 8px 16px 12px;
+  padding: 24px 20px;
+  background: linear-gradient(180deg, #FFF5F1 0%, #FFEDE4 100%);
+  border-radius: 16px;
+  text-align: center;
+}
+.sl-alarm-hero-icon {
+  font-size: 40px;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+.sl-alarm-hero-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1A1A1A;
+  margin-bottom: 8px;
+}
+.sl-alarm-hero-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+/* Section 底部说明 */
+.sl-section-footer {
+  margin: 4px 20px 24px;
+  font-size: 11px;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+/* 家人一行的双列布局（头像 + 文字） */
+.sl-user-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* 主人徽标 */
+.sl-owner-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  font-size: 10px;
+  color: #FF6A2E;
+  background: rgba(255, 106, 46, 0.12);
+  border-radius: 4px;
+  font-weight: 500;
+  vertical-align: 1px;
+}

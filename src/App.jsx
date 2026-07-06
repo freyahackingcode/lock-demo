@@ -11,6 +11,9 @@ import HomeKitSetting from './pages/SettingLock/HomeKitSetting.jsx'
 import SoundSettings from './pages/SettingLock/SoundSettings.jsx'
 import DoorNotClose from './pages/SettingLock/DoorNotClose.jsx'
 import AbnormalPage from './pages/SettingLock/AbnormalPage.jsx'
+import NotificationManagement from './pages/SettingLock/NotificationManagement.jsx'
+import PryAlarm from './pages/SettingLock/PryAlarm.jsx'
+import DuressAlarm from './pages/SettingLock/DuressAlarm.jsx'
 import ConfigPanel from './pages/SettingLock/ConfigPanel.jsx'
 
 const setHash = (h) => { window.location.hash = h }
@@ -36,12 +39,16 @@ export default function App() {
       prevent: 'setting-lock-prevent',
       homekit: 'setting-lock-homekit',
       'sound-doornotclose': 'sound-doornotclose',
-      'sound-abnormal': 'sound-abnormal'
+      'sound-abnormal': 'sound-abnormal',
+      'notification-mgmt': 'notification-mgmt',
+      'alarm-pry': 'alarm-pry',
+      'alarm-duress': 'alarm-duress',
     }
     setHash(map[target] || target)
   }
   const backToSettingLock = () => setHash('setting-lock')
   const backToReverse = () => setHash('setting-lock-reverse')
+  const backToNotification = () => setHash('notification-mgmt')
 
   let content = null
   if (view === 'home') {
@@ -78,9 +85,15 @@ export default function App() {
     content = <DoorNotClose onBack={() => setHash('sound-settings')} />
   } else if (view === 'sound-abnormal') {
     content = <AbnormalPage onBack={() => setHash('sound-settings')} />
+  } else if (view === 'notification-mgmt') {
+    content = <NotificationManagement onBack={() => setHash('home')} navigate={navigateSL} />
+  } else if (view === 'alarm-pry') {
+    content = <PryAlarm onBack={backToNotification} />
+  } else if (view === 'alarm-duress') {
+    content = <DuressAlarm onBack={backToNotification} />
   }
 
-  const isSettingLockView = view.startsWith('setting-lock') || view.startsWith('sound-')
+  const isSettingLockView = view.startsWith('setting-lock') || view.startsWith('sound-') || view.startsWith('notification-') || view.startsWith('alarm-')
 
   return (
     <div className={`app-frame ${isClean ? 'clean' : ''}`}>
@@ -91,6 +104,7 @@ export default function App() {
             <button className={view.startsWith('elec') ? 'active' : ''} onClick={() => setHash('elec')}>电量管理</button>
             <button className={view.startsWith('setting-lock') ? 'active' : ''} onClick={() => setHash('setting-lock')}>门锁设置</button>
             <button className={view.startsWith('sound-') ? 'active' : ''} onClick={() => setHash('sound-settings')}>声音和提醒</button>
+            <button className={view.startsWith('notification-') || view.startsWith('alarm-') ? 'active' : ''} onClick={() => setHash('notification-mgmt')}>通知管理</button>
           </div>
           {isSettingLockView && (
             <div className="dev-nav" style={{ marginTop: -6 }}>
@@ -104,6 +118,9 @@ export default function App() {
               <button className={view === 'sound-settings' ? 'active' : ''} onClick={() => setHash('sound-settings')}>声音主页</button>
               <button className={view === 'sound-doornotclose' ? 'active' : ''} onClick={() => setHash('sound-doornotclose')}>门未关</button>
               <button className={view === 'sound-abnormal' ? 'active' : ''} onClick={() => setHash('sound-abnormal')}>其他异常</button>
+              <button className={view === 'notification-mgmt' ? 'active' : ''} onClick={() => setHash('notification-mgmt')}>通知管理</button>
+              <button className={view === 'alarm-pry' ? 'active' : ''} onClick={() => setHash('alarm-pry')}>防撬报警</button>
+              <button className={view === 'alarm-duress' ? 'active' : ''} onClick={() => setHash('alarm-duress')}>胁迫开锁</button>
             </div>
           )}
         </>
