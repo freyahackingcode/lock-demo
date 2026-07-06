@@ -52,30 +52,38 @@ export default function NotificationManagement({ onBack, navigate }) {
           />
         </Section>
 
-        <Section title="紧急事件电话通知">
-          <NavigationRow
-            label="室内高温报警"
-            sub="室内温度达到 75℃ 时拨打预设电话"
-            value={highTempLabel}
-            onClick={() => showToast('占位：非本次 PRD 范围')}
-          />
-          <NavigationRow
-            label="门锁被撬报警"
-            sub="门锁被撬时拨打预设报警电话"
-            value={pryLabel}
-            onClick={() => navigate('alarm-pry')}
-          />
-          <NavigationRow
-            label="胁迫开锁报警"
-            sub="家人使用胁迫指纹开锁时拨打紧急联系人"
-            value={duressLabel}
-            onClick={() => navigate('alarm-duress')}
-          />
-        </Section>
+        {s.isOwner ? (
+          <>
+            <Section title="紧急事件电话通知">
+              <NavigationRow
+                label="室内高温报警"
+                sub="室内温度达到 75℃ 时拨打预设电话"
+                value={highTempLabel}
+                onClick={() => showToast('占位：非本次 PRD 范围')}
+              />
+              <NavigationRow
+                label="门锁被撬报警"
+                sub="abnormal-condition = 9 时拨打预设报警电话"
+                value={pryLabel}
+                onClick={() => navigate('alarm-pry')}
+              />
+              <NavigationRow
+                label="胁迫开锁报警"
+                sub="家人使用胁迫指纹开锁时拨打紧急联系人"
+                value={duressLabel}
+                onClick={() => navigate('alarm-duress')}
+              />
+            </Section>
 
-        <div className="sl-section-footer">
-          开启后，事件发生时会自动拨打预设的紧急联系人电话进行通知。功能实现需门锁在线并完成云端配置。
-        </div>
+            <div className="sl-section-footer">
+              开启后，事件发生时会自动拨打预设的紧急联系人电话进行通知。功能实现需门锁在线并完成云端配置。仅设备主人可配置。
+            </div>
+          </>
+        ) : (
+          <div className="sl-section-footer">
+            紧急事件电话通知（室内高温 / 门锁被撬 / 胁迫开锁）仅设备主人可配置。当前为共享用户视角，入口已隐藏。
+          </div>
+        )}
       </div>
 
       <Toast msg={toast} />

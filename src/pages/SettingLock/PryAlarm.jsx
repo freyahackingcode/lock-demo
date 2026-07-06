@@ -67,6 +67,7 @@ export default function PryAlarm({ onBack }) {
           <div className="sl-alarm-hero-desc">
             门锁上报 <code>lock.exception-occurred</code> 事件、<code>abnormal-condition = 9</code>（Door Lock Was Damaged）时，云端拨打预设的紧急联系人电话，同时警报声响起并上报事件。功能实现需云端配置。
           </div>
+          <div className="sl-alarm-owner-tag">仅设备主人可见与配置</div>
         </div>
 
         <Section>

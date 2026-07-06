@@ -79,6 +79,7 @@ export default function DuressAlarm({ onBack }) {
           <div className="sl-alarm-hero-desc">
             家人使用预设的胁迫指纹开锁时，门锁在正常开门的同时静默拨打紧急联系人电话并上报事件，不会向胁迫者暴露报警行为。
           </div>
+          <div className="sl-alarm-owner-tag">仅设备主人可见与配置</div>
         </div>
 
         <Section>

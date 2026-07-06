@@ -774,3 +774,14 @@
   font-weight: 500;
   vertical-align: 1px;
 }
+
+.sl-alarm-owner-tag {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 3px 10px;
+  font-size: 11px;
+  color: #FF6A2E;
+  background: rgba(255, 106, 46, 0.10);
+  border-radius: 999px;
+  font-weight: 500;
+}
