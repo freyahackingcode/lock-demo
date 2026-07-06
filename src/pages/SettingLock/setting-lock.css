@@ -799,3 +799,102 @@
   justify-content: center;
   flex-shrink: 0;
 }
+
+/* 离家场景 —— 复刻生产 OperationCourse 样式 */
+.sl-banner-image {
+  margin: 8px 12px 0;
+  aspect-ratio: 23 / 13;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #EAF2FF 0%, #D6E4FF 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sl-banner-placeholder {
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 13px;
+}
+.sl-away-tips {
+  margin: 20px 20px 12px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(0, 0, 0, 0.55);
+}
+.sl-away-course-title {
+  padding: 6px 28px 0;
+  margin-top: 6px;
+  color: #FF6A2E;
+  font-size: 14px;
+  line-height: 22px;
+}
+.sl-away-course-card {
+  margin: 12px 12px 24px;
+  padding: 0 16px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 16px;
+}
+.sl-away-course-item {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+.sl-away-course-item.last {
+  border-bottom: none;
+}
+.sl-away-course-item-title {
+  color: #1A1A1A;
+  font-size: 16px;
+  line-height: 21px;
+  font-weight: 500;
+}
+.sl-away-course-item-desc {
+  margin-top: 8px;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.55);
+  line-height: 20px;
+}
+.sl-away-course-expand {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-top: 16px;
+  color: rgba(0, 0, 0, 0.55);
+  font-size: 14px;
+  line-height: 22px;
+  cursor: pointer;
+}
+.sl-away-course-expanded {
+  margin-top: 12px;
+}
+.sl-away-course-image {
+  margin: 20px 0 0;
+  aspect-ratio: 297 / 263;
+  border-radius: 12px;
+  background: #F5F5F7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.35);
+  font-size: 12px;
+}
+.sl-away-course-substep {
+  margin-top: 20px;
+  font-size: 14px;
+  line-height: 20px;
+  color: rgba(0, 0, 0, 0.55);
+}
+.sl-away-course-cta {
+  display: block;
+  width: 100%;
+  margin: 28px 0 8px;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 16px;
+  background: #FF6A2E;
+  color: #fff;
+  font-size: 16px;
+  line-height: 22px;
+  cursor: pointer;
+}
+.sl-away-course-cta:active {
+  opacity: 0.85;
+}

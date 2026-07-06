@@ -1,7 +1,9 @@
-// 离家场景落地页
-// PRD 依据：飞书 B2gYdlPyio4agRxVLCtcAOuRnkd（便捷体验 → 离家场景）
-// Spec：wifi-lock.away-home-mode + lock.lock-action value=7/8
-// 交互：默认关；开启前需通过 3 项前置校验（WiFi / 网关 / 米家场景）；开启后展示 4 步教程
+// 离家场景落地页 —— 1:1 复刻生产
+// 生产：miot.lock.spec/plugin-generator/categories/std_lock/5max/pages/settings/AIExperience/AIItems.js
+//       + component/OperationCourse.js
+// 顶部 banner → tipsText 说明段 → 单行开关"离家场景按键" → 操作教程（4 步 + 第 2 步可展开）→ 提示弹窗
+// Spec：wifi-lock.away-home-mode（bool）
+// 权限：constant.js `Device.isOwner ? [...] : []`，非主人不显示入口
 import { useEffect, useState } from 'react'
 import { StatusBar, NavBar, Section, SwitchRow, Toast, Dialog } from './components.jsx'
 import { getState, subscribe, setState } from './store.js'
@@ -13,140 +15,152 @@ function useStore() {
   return getState()
 }
 
-const STEPS = [
-  { n: 1, title: '在门内正常关门', desc: '锁舌检测到关闭后进入待触发态' },
-  { n: 2, title: '5 秒内按下"离家按键"', desc: '键盘区"离家按键"图标亮起 5s，逾期未按则本次不生效' },
-  { n: 3, title: '进入布防模式', desc: '门锁上报 lock-action=7，联动预设米家场景（如关灯 / 关空调）' },
-  { n: 4, title: '门外开门自动解除', desc: '任意方式门外开门 → 上报 lock-action=8 → 按键重新亮起' },
-]
+// 生产 i18n key 与原文一一对应（assets/i18n/zh.js）
+const COPY = {
+  navTitle: '离家场景',                                       // lock_std_awayScene
+  tipsText:
+    '开启后，可在离家时点击"离家场景按键"，联动预设的智能设备。此功能需在"米家"中设置自动化。', // lock_std_5max_away_scene_setup_hint
+  switchLabel: '离家场景按键',                                 // lock_std_llm_awaySceneButton
+  courseTitle: '操作教程',                                     // lock_std_operation_course
+  dialogTitle: '提示',                                         // tip
+  dialogMessage: '需要在智能场景中设置自动化，才能执行场景联动',  // lock_std_llm_needAutomationInSmartScene
+  step1Title: '1. 开启门锁"离家场景按键"功能',
+  step1Desc: '开启页面上方开关，离家关门时，门锁密码区的"离家场景按键"会亮起。',
+  step2Title: '2. "米家"创建"离家场景"',
+  step2Desc: '在米家场景中创建"离家场景"，选择对应触发条件及执行动作。',
+  step2SubStep1:
+    '1. 进入米家 > 右上方"+" > 自动化 > 添加触发条件 > 家居设备 > 选择门锁设备"开启离家场景"。',
+  step2SubStep2: '2. 选择想要联动的设备和执行动作进行创建。',
+  step3Title: '3. 离家关门后，点击"离家场景按键"',
+  step3Desc: '离家关门后，"离家场景按键"将会亮起，点击即可联动相关智能设备执行自动化。',
+  step4Title: '4. 门外开锁后，离家场景自动关闭',
+  expandTutorial: '展开教程',
+  collapseTutorial: '收起教程',
+  goToSetScene: '去设置智能场景',
+}
 
 export default function AwayScene({ onBack }) {
   const s = useStore()
   const [toast, setToast] = useState('')
-  const [dialog, setDialog] = useState(null)
+  const [tutorialOpen, setTutorialOpen] = useState(false)
+  const [dialogOpen, setDialogOpen] = useState(false)
   const showToast = (m) => { setToast(m); setTimeout(() => setToast(''), 2000) }
 
-  const checkPrecondition = () => {
-    if (!s.awayWifiConnected) {
-      return { ok: false, blocking: true, msg: '未连接网络，无法开启离家场景' }
-    }
-    if (!s.awayGatewayBound) {
-      return { ok: false, blocking: true, msg: '未绑定蓝牙网关，无法开启离家场景' }
-    }
-    if (!s.awaySceneConfigured) {
-      return {
-        ok: true,
-        blocking: false,
-        msg: '未设置离家场景，无法执行场景联动。离家期间有人从室内开门，会触发通知提醒',
-      }
-    }
-    return { ok: true, blocking: false, msg: null }
-  }
-
-  const onSwitch = (v) => {
-    if (!v) {
-      setState({ awayHomeMode: false })
-      showToast('离家场景已关闭 (lock-action = 8)')
-      return
-    }
-    const check = checkPrecondition()
-    if (check.blocking) {
-      setDialog({
-        title: '无法开启',
-        body: check.msg,
-        buttons: [{ text: '知道了', style: 'primary', onClick: () => setDialog(null) }],
-      })
-      return
-    }
-    if (check.msg) {
-      setDialog({
-        title: '提醒',
-        body: check.msg,
-        buttons: [
-          { text: '取消', onClick: () => setDialog(null) },
-          {
-            text: '继续开启',
-            style: 'primary',
-            onClick: () => {
-              setDialog(null)
-              setState({ awayHomeMode: true })
-              showToast('离家场景已开启')
-            },
-          },
-        ],
-      })
-      return
-    }
-    setState({ awayHomeMode: true })
-    showToast('离家场景已开启')
-  }
-
+  // 生产用 Device.isOwner ? [...] : [] 隐藏入口
   if (!s.isOwner) {
     return (
       <div className="sl-page gradient">
         <StatusBar />
-        <NavBar title="离家场景" onBack={onBack} />
+        <NavBar title={COPY.navTitle} onBack={onBack} />
         <div className="sl-scroll">
           <div className="sl-section-footer">
-            离家场景仅设备主人可配置。当前为共享用户视角，入口已隐藏。
+            离家场景仅设备主人可见。当前为共享用户视角，入口已隐藏。
           </div>
         </div>
       </div>
     )
   }
 
+  const onSwitch = (v) => {
+    setState({ awayHomeMode: v })
+    // 开启且米家未设自动化时，弹提示（对应 renderLeaveHomeDialog）
+    if (v && !s.awaySceneConfigured) {
+      setDialogOpen(true)
+      return
+    }
+    showToast(v ? '已开启' : '已关闭')
+  }
+
   return (
     <div className="sl-page gradient">
       <StatusBar />
-      <NavBar title="离家场景" onBack={onBack} />
+      <NavBar title={COPY.navTitle} onBack={onBack} />
 
       <div className="sl-scroll">
-        <div className="sl-alarm-hero">
-          <div className="sl-alarm-hero-icon">🏠</div>
-          <div className="sl-alarm-hero-title">一键触发离家布防</div>
-          <div className="sl-alarm-hero-desc">
-            关门后按门锁面板"离家按键"，同时触发 <code>lock-action = 7</code>：<br />
-            ① 联动米家预设"离家场景"（关灯 / 关空调等）<br />
-            ② 门锁进入布防模式，离家期间室内开门将触发告警
-          </div>
-          <div className="sl-alarm-owner-tag">仅设备主人可见与配置</div>
+        {/* Banner 位（生产从 getSettingsAwayomeModeConfig()['banner'] 拉图，比例 23:13） */}
+        <div className="sl-banner-image">
+          <span className="sl-banner-placeholder">Banner · 离家场景</span>
         </div>
 
+        {/* tipsText 段 */}
+        <div className="sl-away-tips">{COPY.tipsText}</div>
+
+        {/* 单行开关 */}
         <Section>
           <SwitchRow
-            label="离家场景"
-            sub="开启后需完成一次门锁本地激活"
+            label={COPY.switchLabel}
             value={s.awayHomeMode}
             onChange={onSwitch}
           />
         </Section>
 
-        {s.awayHomeMode ? (
-          <Section title="使用步骤">
-            {STEPS.map((step) => (
-              <div key={step.n} className="sl-row no-arrow">
-                <div className="sl-row-text sl-user-row">
-                  <div className="sl-step-badge">{step.n}</div>
-                  <div>
-                    <div className="sl-row-label">{step.title}</div>
-                    <div className="sl-row-sub">{step.desc}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </Section>
-        ) : null}
+        {/* 操作教程 —— OperationCourse.js */}
+        <div className="sl-away-course-title">{COPY.courseTitle}</div>
+        <div className="sl-away-course-card">
+          {/* Step 1 */}
+          <div className="sl-away-course-item">
+            <div className="sl-away-course-item-title">{COPY.step1Title}</div>
+            <div className="sl-away-course-item-desc">{COPY.step1Desc}</div>
+          </div>
 
-        <div className="sl-section-footer">
-          解除机制：门外任意方式开锁一次即解除（人脸 / 密码 / 指纹 / NFC / 蓝牙远程 / 视频远程）；室内开门不解除。语音提示默认在门外播放，音量跟随"功能设置提示音"分组。
+          {/* Step 2 with expandable tutorial */}
+          <div className="sl-away-course-item">
+            <div className="sl-away-course-item-title">{COPY.step2Title}</div>
+            <div className="sl-away-course-item-desc">{COPY.step2Desc}</div>
+            <div
+              className="sl-away-course-expand"
+              onClick={() => setTutorialOpen((v) => !v)}
+            >
+              <span>{tutorialOpen ? COPY.collapseTutorial : COPY.expandTutorial}</span>
+              <svg width="12" height="14" viewBox="0 0 12 14" fill="none" style={{
+                transform: tutorialOpen ? 'rotate(180deg)' : 'rotate(0)',
+                transition: 'transform 0.2s',
+              }}>
+                <path d="M2.5 5L6 8.5L9.5 5" stroke="rgba(0,0,0,0.5)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+
+            {tutorialOpen ? (
+              <div className="sl-away-course-expanded">
+                <div className="sl-away-course-image">
+                  <span>米家自动化示意图 1</span>
+                </div>
+                <div className="sl-away-course-image">
+                  <span>米家自动化示意图 2</span>
+                </div>
+                <div className="sl-away-course-substep">{COPY.step2SubStep1}</div>
+                <div className="sl-away-course-image">
+                  <span>米家自动化示意图 3</span>
+                </div>
+                <div className="sl-away-course-substep">{COPY.step2SubStep2}</div>
+                <button
+                  className="sl-away-course-cta"
+                  onClick={() => showToast('生产环境跳转米家智能场景页')}
+                >
+                  {COPY.goToSetScene}
+                </button>
+              </div>
+            ) : null}
+          </div>
+
+          {/* Step 3 */}
+          <div className="sl-away-course-item">
+            <div className="sl-away-course-item-title">{COPY.step3Title}</div>
+            <div className="sl-away-course-item-desc">{COPY.step3Desc}</div>
+          </div>
+
+          {/* Step 4 (no desc) */}
+          <div className="sl-away-course-item last">
+            <div className="sl-away-course-item-title">{COPY.step4Title}</div>
+          </div>
         </div>
       </div>
 
       <Dialog
-        open={dialog != null}
-        title={dialog?.title}
-        body={dialog?.body}
-        buttons={dialog?.buttons || []}
+        open={dialogOpen}
+        title={COPY.dialogTitle}
+        body={COPY.dialogMessage}
+        buttons={[{ text: '好的', style: 'primary', onClick: () => setDialogOpen(false) }]}
       />
       <Toast msg={toast} />
     </div>
