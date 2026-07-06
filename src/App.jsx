@@ -14,6 +14,7 @@ import AbnormalPage from './pages/SettingLock/AbnormalPage.jsx'
 import NotificationManagement from './pages/SettingLock/NotificationManagement.jsx'
 import PryAlarm from './pages/SettingLock/PryAlarm.jsx'
 import DuressAlarm from './pages/SettingLock/DuressAlarm.jsx'
+import AwayScene from './pages/SettingLock/AwayScene.jsx'
 import ConfigPanel from './pages/SettingLock/ConfigPanel.jsx'
 
 const setHash = (h) => { window.location.hash = h }
@@ -91,9 +92,11 @@ export default function App() {
     content = <PryAlarm onBack={backToNotification} />
   } else if (view === 'alarm-duress') {
     content = <DuressAlarm onBack={backToNotification} />
+  } else if (view === 'away-scene') {
+    content = <AwayScene onBack={() => setHash('home')} />
   }
 
-  const isSettingLockView = view.startsWith('setting-lock') || view.startsWith('sound-') || view.startsWith('notification-') || view.startsWith('alarm-')
+  const isSettingLockView = view.startsWith('setting-lock') || view.startsWith('sound-') || view.startsWith('notification-') || view.startsWith('alarm-') || view === 'away-scene'
 
   return (
     <div className={`app-frame ${isClean ? 'clean' : ''}`}>
@@ -105,6 +108,7 @@ export default function App() {
             <button className={view.startsWith('setting-lock') ? 'active' : ''} onClick={() => setHash('setting-lock')}>门锁设置</button>
             <button className={view.startsWith('sound-') ? 'active' : ''} onClick={() => setHash('sound-settings')}>声音和提醒</button>
             <button className={view.startsWith('notification-') || view.startsWith('alarm-') ? 'active' : ''} onClick={() => setHash('notification-mgmt')}>通知管理</button>
+            <button className={view === 'away-scene' ? 'active' : ''} onClick={() => setHash('away-scene')}>离家场景</button>
           </div>
           {isSettingLockView && (
             <div className="dev-nav" style={{ marginTop: -6 }}>
@@ -121,6 +125,7 @@ export default function App() {
               <button className={view === 'notification-mgmt' ? 'active' : ''} onClick={() => setHash('notification-mgmt')}>通知管理</button>
               <button className={view === 'alarm-pry' ? 'active' : ''} onClick={() => setHash('alarm-pry')}>防撬报警</button>
               <button className={view === 'alarm-duress' ? 'active' : ''} onClick={() => setHash('alarm-duress')}>胁迫开锁</button>
+              <button className={view === 'away-scene' ? 'active' : ''} onClick={() => setHash('away-scene')}>离家场景</button>
             </div>
           )}
         </>

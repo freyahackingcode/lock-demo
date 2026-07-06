@@ -67,6 +67,13 @@ const state = {
   duressEnabledUsers: [],              // 已开启胁迫指纹的家人 uid 列表
   emergencyContact: null,              // 紧急联系人（{ name, phone } | null，两个告警共用）
 
+  // ---------- 离家场景 ----------
+  // 对齐生产：wifi-lock.away-home-mode 属性 + lock.lock-action value=7/8
+  awayHomeMode: false,                 // 主开关（默认关）
+  awayWifiConnected: true,             // 前置：WiFi 已连接
+  awayGatewayBound: true,              // 前置：蓝牙网关已绑定
+  awaySceneConfigured: true,           // 前置：米家离家场景已创建
+
   // ---------- 运行时上下文 ----------
   ownerHasFingerprint: true,
   ownerHasPassword: true,

@@ -785,3 +785,17 @@
   border-radius: 999px;
   font-weight: 500;
 }
+
+.sl-step-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #FF9F5C 0%, #FF6A2E 100%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
