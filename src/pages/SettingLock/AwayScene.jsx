@@ -61,14 +61,29 @@ export default function AwayScene({ onBack }) {
     )
   }
 
+  // 完整复刻生产 setSpecAwayHomeModeValue（AIItems.js:680-749）
+  // 分支：已建自动化 → 直接写；未建 + 想关 → 直接关；未建 + 想开 → 弹窗二选一
   const onSwitch = (v) => {
-    setState({ awayHomeMode: v })
-    // 开启且米家未设自动化时，弹提示（对应 renderLeaveHomeDialog）
-    if (v && !s.awaySceneConfigured) {
-      setDialogOpen(true)
+    if (s.awaySceneConfigured) {
+      setState({ awayHomeMode: v })
+      showToast(v ? '已开启' : '已关闭')
       return
     }
-    showToast(v ? '已开启' : '已关闭')
+    if (!v) {
+      setState({ awayHomeMode: false })
+      showToast('已关闭')
+      return
+    }
+    setDialogOpen(true)
+  }
+  const onDialogConfirmAnyway = () => {
+    setDialogOpen(false)
+    setState({ awayHomeMode: true })
+    showToast('已开启（未设置自动化，仅门锁本地布防生效）')
+  }
+  const onDialogGoSetup = () => {
+    setDialogOpen(false)
+    showToast('生产环境跳转米家智能场景页')
   }
 
   return (
@@ -160,7 +175,10 @@ export default function AwayScene({ onBack }) {
         open={dialogOpen}
         title={COPY.dialogTitle}
         body={COPY.dialogMessage}
-        buttons={[{ text: '好的', style: 'primary', onClick: () => setDialogOpen(false) }]}
+        buttons={[
+          { text: '知道了', onClick: onDialogConfirmAnyway },
+          { text: '去设置', style: 'primary', onClick: onDialogGoSetup },
+        ]}
       />
       <Toast msg={toast} />
     </div>

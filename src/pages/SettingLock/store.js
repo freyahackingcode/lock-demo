@@ -69,10 +69,10 @@ const state = {
 
   // ---------- 离家场景 ----------
   // 对齐生产：wifi-lock.away-home-mode 属性 + lock.lock-action value=7/8
+  // 插件端唯一前置校验：ifttt.specificSceneExist（是否已建"开启离家场景"自动化）
+  // 不校验 WiFi / 蓝牙直连 / 网关绑定 —— 那些是源规格提到但代码未实现的
   awayHomeMode: false,                 // 主开关（默认关）
-  awayWifiConnected: true,             // 前置：WiFi 已连接
-  awayGatewayBound: true,              // 前置：蓝牙网关已绑定
-  awaySceneConfigured: true,           // 前置：米家离家场景已创建
+  awaySceneConfigured: true,           // 米家侧是否已建"开启离家场景"自动化
 
   // ---------- 运行时上下文 ----------
   ownerHasFingerprint: true,
